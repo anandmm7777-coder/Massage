@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FCM Notification</title>
+</head>
+<body>
+
+<h2>Firebase Push Notification</h2>
+<button id="enable">Enable Notifications</button>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getMessaging,
+  getToken
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+// अपना Firebase Config यहाँ डालो
+const firebaseConfig = {
+  apiKey: "AIzaSyBFL7Qsh0s4k-5UK0dQc8jHgzIh7HSqPLU",
+  authDomain: "fir-39286.firebaseapp.com",
+  projectId: "fir-39286",
+  storageBucket: "fir-39286.firebasestorage.app",
+  messagingSenderId: "412102812344",
+  appId: "1:412102812344:web:c6cf773b826ee3ea304a4d"
+};
+
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+
+document.getElementById("enable").onclick = async () => {
+
+  const permission = await Notification.requestPermission();
+
+  if (permission === "granted") {
+
+    const token = await getToken(messaging, {
+      vapidKey: "BAxzG4sgfJGbz7IA_bspcGFYVQmD2K3hcVVvYOsyP5r9UC_KmKljiCXqeE_MuEC8WyXBVS6qIcEt_Pkm4cSs4T0"
+    });
+
+    console.log("FCM Token:", token);
+    alert(token);
+
+  } else {
+    alert("Notification Permission Denied");
+  }
+
+};
+
+</script>
+
+</body>
+</html>
